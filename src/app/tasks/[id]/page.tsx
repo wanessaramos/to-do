@@ -1,24 +1,52 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Icon from '@mui/icons-material/ArrowBack';
 import api from '@/services/api';
+import { TaskProps } from '@/lib/storage';
 
-const CreateTask = () => {
+interface EditProps {
+  params: { id: string };
+}
+
+const EditTask = ({ params }: EditProps) => {
   const router = useRouter();
-  async function createTask(formData: FormData) {
+  const [task, setTask] = useState<TaskProps | undefined>();
+  const [username, setUsername] = useState('');
+  const [description, setDescription] = useState('');
+
+  useEffect(() => {
+    async function getTask() {
+      const { id } = params;
+      try {
+        const response = await api.get(`/task/${id}`);
+        const data: TaskProps = response.data;
+        setTask(data);
+        setUsername(data.username);
+        setDescription(data.description);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getTask();
+  }, [params]);
+
+  async function createTask(event: React.FormEvent) {
+    event.preventDefault();
     const rawFormData = {
-      username: formData.get('username'),
-      description: formData.get('description'),
-      check: true
+      username,
+      description,
+      check: task?.check
     };
     try {
-      await api.post('/task', rawFormData);
+      await api.put(`/task/${params.id}`, rawFormData);
       router.push('/');
     } catch (error) {
       console.log(error);
     }
   }
+
   return (
     <div className="bg-lightgray flex items-center justify-center w-full min-h-screen p-4 md:p-8">
       <div>
@@ -41,7 +69,7 @@ const CreateTask = () => {
               </p>
             </div>
 
-            <form action={createTask}>
+            <form onSubmit={createTask}>
               <div className="w-full py-4">
                 <label
                   className="
@@ -52,6 +80,8 @@ const CreateTask = () => {
                 <input
                   type="text"
                   name="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="bg-white border border-solid border-lightgray rounded w-full h-[46px]"
                 />
               </div>
@@ -65,7 +95,9 @@ const CreateTask = () => {
                 </label>
                 <textarea
                   name="description"
-                  className="bg-white border border-solid border-lightgray rounded w-full h-[8,75rem]"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="bg-white border border-solid border-lightgray rounded w-full h-[8.75rem]"
                 />
               </div>
               <div className="w-full py-4">
@@ -73,7 +105,7 @@ const CreateTask = () => {
                   className="bg-green w-[100%] h-[48px]
          text-white font-rubik font-medium py-4 px-4 rounded-lg text-base leading-[18.96px]"
                 >
-                  Adicionar
+                  Editar
                 </button>
               </div>
             </form>
@@ -83,4 +115,5 @@ const CreateTask = () => {
     </div>
   );
 };
-export default CreateTask;
+
+export default EditTask;

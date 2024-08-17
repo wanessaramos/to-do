@@ -1,5 +1,6 @@
 import Button from '../Button';
 import { TaskProps } from '@/lib/storage';
+import Menu from '../Menu';
 
 export interface CardProps {
   task: TaskProps;
@@ -7,7 +8,8 @@ export interface CardProps {
 
 const Card = ({ task }: CardProps) => {
   return (
-    <div className="w-full md:w-[30.625rem] h-auto md:h-[20.6875rem] rounded-lg bg-white shadow p-5 mb-4">
+    <div className="w-full md:w-[30.625rem] h-auto md:h-[20.6875rem] rounded-lg bg-white shadow p-5 mb-4 relative">
+      <Menu id={task.id} check={task.check} />
       <div className="flex flex-col items-start justify-between h-full">
         <div className="w-full gap-2">
           <div>
