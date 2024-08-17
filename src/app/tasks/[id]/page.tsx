@@ -41,7 +41,7 @@ const EditTask = ({ params }: EditProps) => {
     };
     try {
       await api.put(`/task/${params.id}`, rawFormData);
-      router.back();
+      router.push('/');
     } catch (error) {
       console.log(error);
     }
