@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:4000'
+  baseURL: 'https://api-todo-lemon.vercel.app/'
 });
 export default api;
