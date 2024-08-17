@@ -29,7 +29,7 @@ const Home = () => {
     <div className="bg-lightgray flex flex-col items-center w-full min-h-screen p-4 md:p-8 relative">
       <Link
         title="Create task"
-        className="bg-green text-lx leading-[1.396rem] font-rubik font-medium text-white py-4 flex items-center justify-center fixed bottom-[1.25rem] right-[1.25rem] p-2 rounded-full w-[50px] h-[50px]"
+        className="bg-green text-lx leading-[1.396rem] font-rubik font-medium text-white py-4 flex z-50 items-center justify-center fixed bottom-[1.25rem] right-[1.25rem] p-2 rounded-full w-[50px] h-[50px]"
         href="/tasks"
       >
         <Icon />

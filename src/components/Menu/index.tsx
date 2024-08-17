@@ -16,7 +16,6 @@ const Menu = ({ id, check }: MenuProps) => {
     }
   };
 
-  console.log(check);
   return (
     <div className="flex w-auto h-auto rounded absolute top-0.5 right-0">
       <div className="grid grid-rows-2 gap-2 p-4">
